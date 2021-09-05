@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Workers list</title>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<div class="jumbotron jumbotron-fluid mt-5">
+  <div class="container">
+    <h1 class="display-4">Workers list</h1>
+    <p class="lead">На данной странице Вы можете наблюдать иерархию сотрудников некоторой организации</p>
+  </div>
+</div>
+
+<ol>
+    {% for node in tree_from_list %}
+        {% if node.type == 'in' %}
+            <ul> <br>
+                {% if node.subordinates %}
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse{{ node.value.id }}" role="button" aria-expanded="true" aria-controls="collapse{{ node.value.id }}">
+                        {{ node.value }} (id: {{ node.value.id }}) Должность - {{ node.value.get_position }}
+                    </a>
+                    <div class="collapse" id="collapse{{ node.value.id }}">
+                {% else %}
+                    <div class="card card-body">
+                        <div class="raw">
+                            {{ node.value }} (id: {{ node.value.id }}) Должность - {{ node.value.get_position }}
+                        </div>
+                    </div>
+                {% endif %}
+        {% elif node == 'out_subordinate' %}
+                </div>
+            </ul>
+        {% else %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+</ol>
+</body>
+</html>
